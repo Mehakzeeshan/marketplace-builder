@@ -2,7 +2,18 @@ import Image from "next/image";
 import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 import { PiDotsNineBold } from "react-icons/pi";
 import { SlArrowRight } from "react-icons/sl";
-import ProductsList from "./shopProducts";
+import SanityFetchedProducts from "../components/sanityProducts";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+} from "@/components/ui/pagination";
+
+
+
 
 export default function ShopSection() {
   return (
@@ -40,13 +51,13 @@ export default function ShopSection() {
           <h3>Filter</h3>
           <PiDotsNineBold className="mt-1 font-extrabold text-lg" />
           <h3 className="font-semibold flex gap-8">
-            <p>|</p>Showing 1-16 of 32 results
+            <p>|</p>Showing 1-8 of 24 results
           </h3>
         </div>
 
         <div className="flex gap-4 mx-8 flex-wrap items-center">
           <h2 className="mt-1 font-semibold">Show</h2>
-          <p className="bg-white px-5 py-2 text-[#9f9f9f]">16</p>
+          <p className="bg-white px-5 py-2 text-[#9f9f9f]">8</p>
           <h2 className="mt-1 font-semibold">Sort by</h2>
           <p className="bg-white px-5 py-2 text-[#9f9f9f]">Default</p>
         </div>
@@ -54,17 +65,32 @@ export default function ShopSection() {
 
       <section>
         
-        <ProductsList />
-        <ProductsList />
         
+       <SanityFetchedProducts/>
         
+       <Pagination className="mt-10">
+  <PaginationContent>
+    <PaginationItem>
+      
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" className="px-5 py-4 rounded-xl bg-[#b88e2f]">1</PaginationLink>
+      <PaginationLink href="/shop2" className="px-5 py-4 rounded-xl bg-[#f9f1e7] ml-4">2</PaginationLink>
+      <PaginationLink href="/shop3" className="px-5 py-4 rounded-xl bg-[#f9f1e7] ml-4">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="/shop2" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
 
-        <div className="flex justify-center gap-5 mt-10">
-          <button className="px-5 py-4 rounded-xl bg-[#b88e2f]">1</button>
-          <button className="px-5 py-4 rounded-xl bg-[#f9f1e7]">2</button>
-          <button className="px-5 py-4 rounded-xl bg-[#f9f1e7]">3</button>
-          <button className="px-5 py-4 rounded-xl bg-[#f9f1e7]">Next</button>
-        </div>
+  
+        
+         
+        
       </section>
     </>
   );

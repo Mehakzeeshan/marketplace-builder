@@ -1,13 +1,20 @@
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
+import Link from "next/link";
+import AddToCartButton from "./addToCartButton";
 
 interface Product {
   title: string;
-  productImage: string;
-  price: number;
-  discountPercentage?: number; // Optional field
-  isNew: boolean;
+    productImage: string;
+    price: number;
+    description: string;
+    discountPercentage: number;
+    isNew: boolean;
+    tags: string[];
+    slug: { current: string };
+    id: string;
+    stock: number;
 }
 
 
@@ -19,7 +26,12 @@ export default async function SanityFetchedProducts() {
         "productImage": productImage.asset->url,
         price,
         discountPercentage,
-        isNew
+        isNew,
+        id,
+        stock,
+        description,
+        tags,
+        slug 
       }[0...8]`
     );
   
@@ -27,6 +39,7 @@ export default async function SanityFetchedProducts() {
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-16 md:mx-6 mx-16">
   {data.map((product, index) => (
     <div key={index} className="p-4 border border-gray-300 bg-[#f4f5f7]">
+      <Link href={`/dynamic/${product.slug.current}`}>
       <div
         style={{
           height: "50vh",
@@ -60,14 +73,21 @@ export default async function SanityFetchedProducts() {
 </div>
         </div>
 
-        {/* Add to Cart Button */}
-        <button className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#1e1c1b] text-white font-bold py-2 px-2 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-300">
-          Add to Cart
-        </button>
-      </div>
+        
+      
+</div>
+      
 
       <h2 className="mt-4 text-[#3a3a3a] font-bold text-2xl">{product.title}</h2>
       <p className="mt-2 text-[#3a3a3a] font-semibold text-lg">Price: ${product.price}</p>
+      </Link>
+      {/* Add to Cart Button */}
+      <div className="relative group">
+  <AddToCartButton 
+    product={product} 
+    className="bg-black text-wite px-2 py-2 mt-2"
+  />
+</div>
     </div>
   ))}
 </section>
@@ -75,3 +95,5 @@ export default async function SanityFetchedProducts() {
   
   );
 }
+
+
