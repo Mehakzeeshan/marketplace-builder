@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link";
+
 import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -8,6 +8,7 @@ import { Product } from "../types/types";
 import { getCartItems, removeFromCart, updateCartQuantity } from "../actions/actions";
 import Swal from "sweetalert2";
 import { urlFor } from "@/sanity/lib/image";
+import { useRouter } from "next/navigation";
 
 export default function CartSection () {
 
@@ -58,7 +59,8 @@ const [cartItems, setCartItems] = useState<Product[]>([])
   const calculatedTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.stock, 0);
   }
-
+  
+  const router = useRouter();
   const handledProceed = () => {
     Swal.fire({
       title: "Proceed to checkout?",
@@ -70,7 +72,8 @@ const [cartItems, setCartItems] = useState<Product[]>([])
       confirmButtonText: "Yes, proceed!"
     }).then((result) => {
       if(result.isConfirmed) {
-        Swal.fire("Success!", "Your order has been placed.", "success");
+        
+        router.push("/checkout");
         setCartItems([]);
         
       }
@@ -133,8 +136,8 @@ const [cartItems, setCartItems] = useState<Product[]>([])
               <h2 className="pt-7 text-[#b88e2f] font-semibold text-xl">$ {calculatedTotal()}</h2>
             </div>
           </div>
-          <button onClick={handledProceed} className="mt-16 mx-[80px] outline outline-black outline-1 rounded-2xl px-16 py-3 text-xl">
-            <Link href="/checkout">Check Out</Link>
+          <button onClick={handledProceed} className="mt-16 mx-[80px] outline outline-black outline-1 rounded-2xl px-16 py-3 text-xl hover:bg-[#b88e2f] hover:text-white">
+            Check Out
           </button>
         </div>
       </div>
